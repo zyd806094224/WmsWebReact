@@ -27,8 +27,8 @@ export default class Login extends React.Component {
                         <h1 className={"login-title"}>用户登录</h1>
                         <Form
                             name="basic"
-                            labelCol={{span: 8}}
-                            wrapperCol={{span: 12}}
+                            labelCol={{span: 6}}
+                            wrapperCol={{span: 14}}
                             style={{maxWidth: 600}}
                             initialValues={{remember: true}}
                             onFinish={onFinish}
@@ -51,7 +51,7 @@ export default class Login extends React.Component {
                                 <Input.Password/>
                             </Form.Item>
 
-                            <Form.Item wrapperCol={{offset: 8, span: 16}}>
+                            <Form.Item wrapperCol={{offset: 6, span: 14}}>
                                 <Button type="primary" htmlType="submit">
                                     确定
                                 </Button>
