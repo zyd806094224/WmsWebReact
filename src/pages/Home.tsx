@@ -1,13 +1,26 @@
 import React from "react";
+import {Layout} from "antd";
+import Aside from "../components/Aside";
+import {Content, Footer, Header} from "antd/es/layout/layout";
 
-class Home extends React.Component{
-    render() {
-        return (
-            <div>
-                <p>Home页</p>
-            </div>
-        );
-    }
+function Home(props:any){
+
+    return (
+        <Layout style={{ minHeight: '100vh' }}>
+            <Aside/>
+            <Layout>
+                <Header style={{ padding: 0, background: '#ff0000' }} />
+
+                <Content style={{ margin: '0 16px' }}>
+
+                </Content>
+                <Footer style={{ textAlign: 'center' }}>
+                    Ant Design ©{new Date().getFullYear()} Created by Ant UED
+                </Footer>
+            </Layout>
+        </Layout>
+    );
+
 }
 
 export default Home
