@@ -2,6 +2,8 @@ import React, {useRef} from "react";
 import {Button, Form, Input, message} from "antd";
 import '../login/login.css'
 import {useNavigate} from 'react-router-dom';
+import {useDispatch} from "react-redux";
+import {loginSuccess} from "../../redux/action";
 
 
 type FieldType = {
@@ -12,6 +14,7 @@ type FieldType = {
 function Login() {
     const navigate = useNavigate();
     const loginForm = useRef(null);
+    const dispatch = useDispatch();
 
     const handleSubmit = async (values: any) => {
         try {
@@ -28,6 +31,7 @@ function Login() {
                 // 处理登录成功后的逻辑，比如跳转页面等
                 if (data.code === 200) {
                     message.success(data.msg);
+                    dispatch(loginSuccess(data))
                     navigate('/pages/Home')
                 } else {
                     message.error(data.msg)

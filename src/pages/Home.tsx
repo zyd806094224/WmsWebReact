@@ -5,6 +5,8 @@ import {Content, Footer, Header} from "antd/es/layout/layout";
 
 function Home(props:any){
 
+    console.log('home....')
+
     return (
         <Layout style={{ minHeight: '100vh' }}>
             <Aside/>
