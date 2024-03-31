@@ -2,17 +2,18 @@ import React, {useEffect, useState} from "react";
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
 import {UserOutlined} from "@ant-design/icons";
-import {useSelector} from "react-redux";
-import {LoginData} from "../redux/action";
+import {connect} from "react-redux";
+import {LOGIN_DATA_CHANGE} from "../store/reducer";
 
 type MyMenuItem = {
     label: string
 }
 
-function Aside() {
+function Aside(props: any) {
     const [collapsed, setCollapsed] = useState(false);
-    const userData = useSelector((state:LoginData) => state.userData);
-
+    const userData = props.userdata
+    let str = props.str
+    console.log('str=====>' + str)
     const [menuItems, setMenuItems] = useState<MyMenuItem[]>([]);
 
     const tempItemList: MyMenuItem[] = [];
@@ -41,4 +42,22 @@ function Aside() {
     )
 }
 
-export default Aside
+/** state映射*/
+const mapStateToProps = (state: any) => {
+    return {
+        userdata: state.userdata,
+        str: state.str
+    }
+}
+
+/** 派发*/
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        changeUserData: (val: any) => {
+            let action = {type: LOGIN_DATA_CHANGE, value: val}
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Aside)

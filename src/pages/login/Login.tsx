@@ -2,8 +2,8 @@ import React, {useRef} from "react";
 import {Button, Form, Input, message} from "antd";
 import '../login/login.css'
 import {useNavigate} from 'react-router-dom';
-import {useDispatch} from "react-redux";
-import {loginSuccess} from "../../redux/action";
+import {connect} from "react-redux";
+import {LOGIN_DATA_CHANGE} from "../../store/reducer";
 
 
 type FieldType = {
@@ -11,10 +11,9 @@ type FieldType = {
     password?: string;
 };
 
-function Login() {
+function Login(props: any) {
     const navigate = useNavigate();
     const loginForm = useRef(null);
-    const dispatch = useDispatch();
 
     const handleSubmit = async (values: any) => {
         try {
@@ -31,7 +30,7 @@ function Login() {
                 // 处理登录成功后的逻辑，比如跳转页面等
                 if (data.code === 200) {
                     message.success(data.msg);
-                    dispatch(loginSuccess(data))
+                    props.changeUserData(data)
                     navigate('/pages/Home')
                 } else {
                     message.error(data.msg)
@@ -92,4 +91,21 @@ function Login() {
     );
 }
 
-export default Login
+/** state映射*/
+const mapStateToProps = (state: any) => {
+    return {
+        userdata: state.userdata
+    }
+}
+
+/** 派发*/
+const mapDispatchToProps = (dispatch: any) => {
+    return {
+        changeUserData: (val: any) => {
+            let action = {type: LOGIN_DATA_CHANGE, value: val}
+            dispatch(action)
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
