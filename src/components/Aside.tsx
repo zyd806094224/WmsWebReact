@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useImperativeHandle, useState} from "react";
 import {Menu} from "antd";
 import Sider from "antd/es/layout/Sider";
 import {UserOutlined} from "@ant-design/icons";
@@ -9,7 +9,12 @@ type MyMenuItem = {
     label: string
 }
 
-function Aside(props: any) {
+interface Props {
+    sideChangeNotifyHome: (state: boolean) => void
+}
+
+
+function Aside(props: Props | any) {
     const [collapsed, setCollapsed] = useState(false);
     const userData = props.userdata
     let str = props.str
@@ -30,8 +35,20 @@ function Aside(props: any) {
         setMenuItems(tempItemList);
 
     }, []); // 空依赖项数组
+
+    //给父组件调用的函数
+    useImperativeHandle(props.onRef, () => ({
+        asideChange
+    }))
+
+    //父组件触发侧边栏状态改变事件
+    function asideChange() {
+        setCollapsed(!collapsed)
+        props.sideChangeNotifyHome(collapsed)
+    }
+
     return (
-        <Sider collapsible={false} collapsed={collapsed} onCollapse={(value) => setCollapsed(!collapsed)}>
+        <Sider collapsible={false} collapsed={collapsed} onCollapse={(value) => asideChange()}>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical">
                 <Menu.Item key={1} icon={<UserOutlined/>}>{"首页"}</Menu.Item>
                 {menuItems.map((item, index) => (
