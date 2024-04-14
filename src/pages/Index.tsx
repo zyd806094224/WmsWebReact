@@ -4,13 +4,14 @@ import {Content, Footer, Header} from "antd/es/layout/layout";
 import {DownOutlined, MenuFoldOutlined, MenuUnfoldOutlined, SmileOutlined} from "@ant-design/icons";
 import Aside from "../components/Aside";
 import {connect} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate,Outlet} from "react-router-dom";
+import AppRouter from "../router/AppRouter";
 
-function Home(props: any) {
+function Index(props: any) {
 
     const navigate = useNavigate();
     const userData = props.userdata
-    console.log('Home--=====>' + userData.data.user.name)
+    console.log('Index--=====>' + userData.data.user.name)
     const [asideState, setAsideState] = useState(true); //true是侧边栏展开 默认展开
     const [isModalOpen, setIsModalOpen] = useState(false);
     const childRef = useRef(null)
@@ -55,7 +56,7 @@ function Home(props: any) {
     ]
 
     function toUserCenter() {
-        navigate('/pages/Home')
+        navigate('/pages/Index')
     }
 
     function loginOut() {
@@ -95,7 +96,7 @@ function Home(props: any) {
                 </Header>
 
                 <Content style={{margin: '0 16px'}}>
-
+                    <Outlet/>
                 </Content>
                 <Footer style={{textAlign: 'center'}}>
                     Ant Design ©{new Date().getFullYear()} Created by Ant UED
@@ -113,4 +114,4 @@ const mapStateToProps = (state: any) => {
     }
 }
 
-export default connect(mapStateToProps, null)(Home)
+export default connect(mapStateToProps, null)(Index)

@@ -4,9 +4,11 @@ import Sider from "antd/es/layout/Sider";
 import {UserOutlined} from "@ant-design/icons";
 import {connect} from "react-redux";
 import {LOGIN_DATA_CHANGE} from "../store/reducer";
+import {useNavigate} from "react-router-dom";
 
 type MyMenuItem = {
-    label: string
+    label: string,
+    routePath: string
 }
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 
 
 function Aside(props: Props | any) {
+    const navigateTo = useNavigate();
     const [collapsed, setCollapsed] = useState(false);
     const userData = props.userdata
     let str = props.str
@@ -29,7 +32,8 @@ function Aside(props: Props | any) {
         // 这里的代码只会在组件的首次渲染时执行一次
         userData.data.menu.forEach((value: any, index: number) => {
             tempItemList.push({
-                label: value.menuName
+                label: value.menuName,
+                routePath: value.menuComponent
             })
         })
         setMenuItems(tempItemList);
@@ -47,12 +51,32 @@ function Aside(props: Props | any) {
         props.sideChangeNotifyHome(collapsed)
     }
 
+    const toNavigateView = (route: string): any => {
+        console.log(route)
+        if(route.includes('Home')){
+            navigateTo('')
+        }else if(route.includes('AdminMange')){
+            navigateTo('adminMange')
+        }else if(route.includes('UserMange')){
+            navigateTo('userManage')
+        }else if(route.includes('StorageMange')){
+            navigateTo('storageMange')
+        }else if(route.includes('GoodsTypeMange')){
+            navigateTo('goodsTypeMange')
+        }else if(route.includes('GoodsMange')){
+            navigateTo('goodsMange')
+        }else if(route.includes('RecordMange')){
+            navigateTo('recordMange')
+        }
+
+    }
+
     return (
         <Sider collapsible={false} collapsed={collapsed} onCollapse={(value) => asideChange()}>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="vertical">
-                <Menu.Item key={1} icon={<UserOutlined/>}>{"首页"}</Menu.Item>
+                <Menu.Item onClick={() => {toNavigateView('Home')}} key={1} icon={<UserOutlined/>}>{"首页"}</Menu.Item>
                 {menuItems.map((item, index) => (
-                    <Menu.Item key={index + 2} icon={<UserOutlined/>}>{item.label}</Menu.Item>
+                    <Menu.Item onClick={() => {toNavigateView(item.routePath)}} key={index + 2} icon={<UserOutlined/>}>{item.label}</Menu.Item>
                 ))}
             </Menu>
         </Sider>

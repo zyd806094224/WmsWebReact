@@ -31,7 +31,7 @@ function Login(props: any) {
                 if (data.code === 200) {
                     message.success(data.msg);
                     props.changeUserData(data)
-                    navigate('/pages/Home')
+                    navigate('/pages/Index')
                 } else {
                     message.error(data.msg)
                 }
